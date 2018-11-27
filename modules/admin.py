@@ -33,9 +33,6 @@ class Admin:
             if auth == False:
                 return
 
-            if await is_guild(ctx):
-                return
-
             if user is None or amount is None:
                 return await usage(ctx, ['mention a user', 'amount'], [ctx.author.mention, '1000'], "Lets you give gold to other users.")
 
@@ -65,9 +62,6 @@ class Admin:
             if auth == False:
                 return
 
-            if await is_guild(ctx):
-                return
-
             if user is None or achievement_id is None:
                 return await usage(ctx, ['mention a user', 'achievement id'] [ctx.author.mention, 5], 'Lets you give users achievements')
 
@@ -93,9 +87,6 @@ class Admin:
         try:
             auth = is_admin(self.bot, ctx)
             if auth == False:
-                return
-
-            if await is_pm(ctx):
                 return
 
             pg = commands.Paginator(prefix="", suffix="", max_size=1022)
@@ -127,8 +118,6 @@ class Admin:
         try:
             auth = is_admin(self.bot, ctx)
             if auth == False:
-                return
-            if await is_pm(ctx):
                 return
             if id is None:
                 return await usage(ctx, ['achievement id'], ['1'], 'Lets you edit an achievement. To get the list of achievement with their ids use the `{}achievements` command.'.format(returnPrefix(ctx)))
@@ -266,8 +255,6 @@ class Admin:
         try:
             auth = is_admin(self.bot, ctx)
             if auth == False:
-                return
-            if await is_pm(ctx):
                 return
             if id is None:
                 return await usage(ctx, ['rank id'], ['1'], 'Lets you edit a rank. To get the ids of ranks use the `{}ranks` command.'.format(returnPrefix(ctx)))
@@ -462,9 +449,6 @@ class Admin:
             if auth == False:
                 return
 
-            if await is_pm(ctx):
-                return
-
             if not db.achievement.count({}):
                 return await error(ctx, "No achievements found", "The achievements collction is empty. Please send this error to the owner.")
 
@@ -484,7 +468,7 @@ class Admin:
                 footer(ctx, e)
                 gays.append(e)
 
-            p = paginator.EmbedPages(ctx, author=ctx.author, embeds=gays)
+            p = paginator.EmbedPages(ctx, embeds=gays)
             await ctx.send("To edit achievements use the `{}edit_achievement` command.".format(returnPrefix(ctx)))
             await p.paginate()
 
@@ -497,9 +481,6 @@ class Admin:
             auth = is_admin(self.bot, ctx)
 
             if auth == False:
-                return
-
-            if await is_pm(ctx):
                 return
 
             if not db.ranks.count({}):
@@ -532,7 +513,7 @@ class Admin:
                 footer(ctx, e)
                 embeds.append(e)
 
-            p = paginator.EmbedPages(ctx, author=ctx.author, embeds=embeds)
+            p = paginator.EmbedPages(ctx, embeds=embeds)
             await ctx.send("To edit ranks use the `{}edit_rank` command.".format(returnPrefix(ctx)))
             await p.paginate()
 
@@ -702,9 +683,6 @@ class Admin:
             if auth == False:
                 return
 
-            if await is_guild(ctx):
-                return
-
             if channel is None:
                 return await usage(ctx, ['mention a channel'], [ctx.channel.mention], 'Allows you to make a channel a gaming one.')
 
@@ -723,9 +701,6 @@ class Admin:
             auth = is_admin(self.bot, ctx)
 
             if auth == False:
-                return
-
-            if await is_guild(ctx):
                 return
 
             if channel is None:
