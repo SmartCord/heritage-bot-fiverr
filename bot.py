@@ -32,7 +32,8 @@ class Bot(commands.AutoShardedBot):
         if message.author.bot:
             return
 
-        await self.process_commands(message)
+        if message.channel.id == 516976377979994113 or message.channel.id == 516254244022648837 or message.channel == message.author.dm_channel:
+            await self.process_commands(message)
 
     async def reload_module(self):
         while True:
