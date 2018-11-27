@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from os import environ
 import discord
 import asyncio
 from PIL import Image, ImageDraw, ImageFont
