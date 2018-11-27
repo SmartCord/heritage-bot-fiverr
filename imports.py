@@ -1,3 +1,4 @@
+from os import environ
 from discord.ext import commands
 import asyncio
 import discord, requests, time, utils
@@ -10,7 +11,6 @@ from utils import db, color, returnPrefix, icon, footer, usage, error, success, 
 from PIL import Image
 import paginator, uuid
 from io import BytesIO
-from os import environ
 
 def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
