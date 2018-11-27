@@ -16,4 +16,4 @@ def similar(a, b):
     return SequenceMatcher(None, a, b).ratio()
 
 class config:
-    bot_token = envrion.get('BOT_TOKEN')
+    bot_token = environ.get('BOT_TOKEN')
