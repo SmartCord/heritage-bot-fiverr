@@ -82,9 +82,6 @@ class General:
     async def trade(self, ctx, user: discord.Member = None, *, card: str = None):
         try:
 
-            if await is_guild(ctx):
-                return
-
             if user is None or card is None:
                 return await usage(ctx, ['mention a user', 'card name'], [ctx.author.mention, 'cool card'], 'Lets you trade cards with other users.')
 
@@ -258,8 +255,6 @@ class General:
     async def gift(self, ctx, user: discord.Member = None, *, card: str = None):
         try:
             auth = is_admin(self.bot, ctx)
-            if await is_guild(ctx):
-                return
 
             if user is None or card is None:
                 return await usage(ctx, ['mention a user', 'card name'], [ctx.author.mention, 'cool card'], 'Lets you gift a card to another user.')
