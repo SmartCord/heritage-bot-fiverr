@@ -47,7 +47,7 @@ class Admin:
             if not db.users.count({"user_id":user.id}):
                 return await error(ctx, "User Error", "The user you mentioned does not have an account yet. He has to type agree on the rules channel to get an account.")
 
-            db.users.update_one({'user_id':user.id}, {'$inc':{'golds':amount}})
+            db.users.update_one({'user_id':user.id}, {'$inc':{'gold':amount}})
             if amount < 2:
                 g = ""
             else:
