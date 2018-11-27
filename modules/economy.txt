@@ -1,0 +1,63 @@
+from imports import *
+
+
+class Economy:
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.command()
+    async def exclude_channel(self, ctx, channel: discord.TextChannel = None):
+        try:
+            if channel is None:
+                return await usage(ctx, ['mention a channel'], [f'{ctx.channel.mention}'], "Allows you to exclude a channel from the gold earning system.")
+
+            if db.excluded.count({"channel_id":channel.id}):
+                return await error(ctx, "Channel is already excluded", f"Please select a different channel to exclude. Use the `{returnPrefix(ctx)}excluded_channels` command to get a list of excluded channels. Use the `{returnPrefix(ctx)}include_channel` command to include a channel.")
+
+            data = {
+                'channel_id':channel.id,
+                'channel_name':channel.name,
+                'added_by_id':ctx.author.id,
+                'added_by_name':f"{ctx.author.name}#{ctx.author.discriminator}"
+            }
+            db.excluded.insert_one(data)
+            await success(ctx, f"Successfully excluded the channel {channel.mention}.")
+
+        except Exception as e:
+            await boterror(self.bot, ctx, e)
+
+    @commands.command()
+    async def include_channel(self, ctx, channel: discord.TextChannel = None):
+        try:
+            if channel is None:
+                return await usage(ctx, ['mention a channel'], [f'{ctx.channel.mention}'], "Allows you to include a channel from the gold earning system.")
+
+            if not db.excluded.count({"channel_id":channel.id}):
+                return await error(ctx, "Channel is not excluded", f"Please select an excluded channel to include. Use the `{returnPrefix(ctx)}excluded_channels` command to get a list of excluded channels. Use the `{returnPrefix(ctx)}exclude_channel` command to exclude a channel.")
+
+            db.excluded.delete_one({"channel_id":channel.id})
+            await success(ctx, f"Successfully included the channel {channel.mention}.")
+        except Exception as e:
+            await boterror(self.bot, ctx, e)
+
+    @commands.command()
+    async def excluded_channels(self, ctx):
+        try:
+            if not db.excluded.count({}):
+                channels = "There are no excluded channels."
+                channelsLen = []
+            else:
+                owo = []
+                for x in db.excluded.find({}):
+                    owo.append(x['channel_id'])
+                channelsLen = [f"<#{y}>" for y in owo]
+                channels = " | ".join(channelsLen)
+            e = discord.Embed(title=f"Excluded Channels (Total : {len(channelsLen)})", description=channels, color=color())
+            e.set_thumbnail(url=icon(ctx, ctx.guild))
+            footer(ctx, e)
+            await ctx.send(embed=e)
+        except Exception as e:
+            await boterror(self.bot, ctx, e)
+
+def setup(bot):
+    bot.add_cog(Economy(bot))
