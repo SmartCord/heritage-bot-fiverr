@@ -873,7 +873,7 @@ class Admin:
 
             loading_emoji = self.bot.get_emoji(514771904284852224)
             loading_msg = await ctx.send(f"{loading_emoji} Processing image.")
-            image = returnBinary(image)
+            image = "placeholder_test"
             data = {
                 "card_name":name.upper(),
                 "act_name":name,
