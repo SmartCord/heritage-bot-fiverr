@@ -43,6 +43,23 @@ class General:
                     pass
                 await giveAchievementAuthor(message, 0)
                 await giveRankAuthor(self.bot, message, 0)
+                data = {
+                    "card_name":"ADVENTURER",
+                    "act_name":"Adventurer",
+                    "card_image":"https://cdn.discordapp.com/attachments/517009241643548682/517044094317494283/Adventurer.png",
+                    "purchased_on":int(time.time()),
+                    "gifted_on":"None",
+                    "gifted_by":"None",
+                    "user_id":message.author.id,
+                    "amount":1
+                }
+                if db.user_cards.count({"user_id":message.author.id, "card_name":"ADVENTURER"}):
+                    pass
+                else:
+                    db.user_cards.insert_one(data)
+                    e = discord.Embed(title="New Card!", color=color())
+                    e.set_image(url="https://cdn.discordapp.com/attachments/517009241643548682/517044094317494283/Adventurer.png")
+                    await message.author.send(embed=e)
 
         if message.channel.id == 514950788150329354 or message.channel.id == 514057242396327964:
 
@@ -75,6 +92,23 @@ class General:
                     await message.delete()
                     await giveAchievementAuthor(message, 0)
                     await giveRankAuthor(self.bot, message, 0)
+                    data = {
+                        "card_name":"ADVENTURER",
+                        "act_name":"Adventurer",
+                        "card_image":"https://cdn.discordapp.com/attachments/517009241643548682/517044094317494283/Adventurer.png",
+                        "purchased_on":int(time.time()),
+                        "gifted_on":"None",
+                        "gifted_by":"None",
+                        "user_id":message.author.id,
+                        "amount":1
+                    }
+                    if db.user_cards.count({"user_id":message.author.id, "card_name":"ADVENTURER"}):
+                        pass
+                    else:
+                        db.user_cards.insert_one(data)
+                        e = discord.Embed(title="New Card!", color=color())
+                        e.set_image(url="https://cdn.discordapp.com/attachments/517009241643548682/517044094317494283/Adventurer.png")
+                        await message.author.send(embed=e)
             if not is_admin(self.bot, message):
                 await message.delete()
 
