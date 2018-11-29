@@ -145,7 +145,7 @@ async def giveRankAuthor(bot, ctx, rank):
             meme = discord.utils.get(get_shit(), id=a['rank_role'])
             #guild = discord.utils.get(self.bot.guilds, id=514440751955050516)
             #noshit = discord.utils.get(bot.get_all_members(), id=ctx.author.id, guild=guild)
-            print(noshit)
+            #print(noshit)
             print(meme)
             if not meme is None:
                 try:
