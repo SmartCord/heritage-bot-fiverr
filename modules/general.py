@@ -131,6 +131,7 @@ class General:
                 return await error(ctx, "User Error", "That's just sad, why would you trade with yourself?")
 
             actname = [x['act_name'] for x in db.user_cards.find({"user_id":ctx.author.id, "card_name":card})][0]
+            authorimagecard = [x['card_image'] for x in db.user_cards.find({"user_id":ctx.author.id, "card_name":card})][0]
 
 
             x = False
@@ -173,6 +174,7 @@ class General:
                             usercard = m['act_name']
                             usercardname = msg.upper()
                         useractname = [y['act_name'] for y in db.user_cards.find({"user_id":user.id, "card_name":usercardname})][0]
+                        userimagecard = [y['card_image'] for y in db.user_cards.find({"user_id":user.id, "card_name":usercardname})][0]
 
             await user.send("Successfully set your card to {} and {}'s card to {}.".format(useractname, ctx.author.name, actname))
             await user.send("Waiting for {} to agree. If he doesn't reply within 10 minutes the trade will be automatically canceled.".format(ctx.author))
@@ -227,8 +229,8 @@ class General:
                     x = True
                     await loading_msg.delete()
                     await loading_msg1.delete()
-                    await success(ctx.author, f"Successfully traded cards with {user}. {user.name} Gave you the card {usercard} and you gave {user.name} the card {actname}.")
-                    await success(user, f"Successfully traded cards with {ctx.author}. {ctx.author} Gave you the card {actname} and you gave {ctx.author} the card {usercard}.")
+                    await success(ctx.author, f"Successfully traded cards with {user}. {user.name} Gave you the card {usercard} and you gave {user.name} the card {actname}.", image=userimagecard)
+                    await success(user, f"Successfully traded cards with {ctx.author}. {ctx.author} Gave you the card {actname} and you gave {ctx.author} the card {usercard}.", image=authorimagecard)
 
             if not db.trades.count({'user_id':ctx.author.id}):
                 data = {

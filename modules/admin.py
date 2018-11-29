@@ -498,8 +498,7 @@ class Admin:
                 else:
                     def get_shit():
                         for server in self.bot.guilds:
-                            for role in server.roles:
-                                return role
+                            return server.roles 
                     rank_role = discord.utils.get(get_shit(), id=x['rank_role'])
                     if rank_role is None:
                         rank_role = "Cannot find role"
