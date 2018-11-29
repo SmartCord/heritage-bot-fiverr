@@ -139,7 +139,10 @@ class General:
                 return m.channel == user.dm_channel and m.author == user
 
             await ctx.send("Successfully asked {} what card he wants to trade to you. If he does not reply within 10 minutes the trade will be canceled. From now on I will private message you.".format(user))
-            await user.send("Hey there, {} wants to trade with you. What card do you want to trade to him. His card offer is the card **{}**.\nPlease enter the card you want to trade to him. If you want to cancel then type cancel. **You will automatically agree and we only have to wait for {} to agree once you enter a card.**".format(ctx.author, actname, ctx.author))
+            e = discord.Embed(title=f"{ctx.author.name} Wants to trade with you", description="What card do you want to trade to him. His card offer is the card **{actname}** (Image Below).\nPlease enter the card you want to trade to him. If you want to cancel then type cancel. **You will automatically agree and we only have to wait for {ctx.author} to agree once you enter a card.**", color=color())
+            e.set_image(url=authorimagecard)
+            footer(user, e)
+            await user.send(embed=e)
 
             while x is False:
                 try:
@@ -179,6 +182,12 @@ class General:
             await user.send("Successfully set your card to {} and {}'s card to {}.".format(useractname, ctx.author.name, actname))
             await user.send("Waiting for {} to agree. If he doesn't reply within 10 minutes the trade will be automatically canceled.".format(ctx.author))
             await ctx.author.send("{} Agreed to the trade and his card offer is the card {}.".format(user, useractname))
+
+            e = discord.Embed(title=f"{user.name} Agreed with the trade!", description=f"His card offer is the card **{useractname}** (Image Below).\nPlease type agree to start the trade. If you do not reply within 10 minutes the trade will be canceled. If you want to cancel now then type cancel.", color=color())
+            e.set_image(url=userimagecard)
+            footer(ctx, e)
+            await ctx.author.send(embed=e)
+
             await ctx.author.send("Please type agree to continue the trade. If you do not reply within 10 minutes the trade will be canceled. If you want to cancel it now type cancel.")
             def check(m):
                 return m.channel == ctx.author.dm_channel and m.author == ctx.author
@@ -247,6 +256,22 @@ class General:
                         pass
                     else:
                         await giveAchievementAuthor(ctx, 3)
+
+            if not db.trades.count({'user_id':user.id}):
+                data = {
+                    'user_id':user.id,
+                    'amount':1
+                }
+                db.trades.insert_one(data)
+            else:
+                db.trades.update_one({"user_id":user.id}, {'$inc':{'amount':1}})
+                amount = [x['amount'] for x in db.trades.find({"user_id":user.id})][0]
+                if amount == 3:
+                    achievements_earned = [x['achievements'] for x in db.users.find({"user_id":user.id})][0]
+                    if 3 in achievements_earned:
+                        pass
+                    else:
+                        await giveAchievementMember(user, 3)
 
 
         except Exception as e:
