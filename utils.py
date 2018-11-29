@@ -95,16 +95,20 @@ async def giveRankMember(bot, member, rank):
 
         if a['rank_role'] != "None":
             def get_shit():
+                roles = []
                 for server in bot.guilds:
-                    return server.roles
+                    for role in server.roles:
+                        roles.append(role)
+                return roles
 
             meme = discord.utils.get(get_shit(), id=a['rank_role'])
-            noshit = discord.utils.get(bot.get_all_members(), id=member.id)
-            print(noshit)
+            # noshit = discord.utils.get(bot.get_all_members(), id=member.id)
+            # print(noshit)
+
             print(meme)
             if not meme is None:
                 try:
-                    await noshit.add_roles(meme)
+                    await member.add_roles(meme)
                 except discord.Forbidden:
                     pass
         try:
