@@ -148,7 +148,7 @@ async def giveRankAuthor(bot, ctx, rank):
             print(meme)
             if not meme is None:
                 try:
-                    await noshit.add_roles(meme)
+                    await noshit.add_roles(meme.name)
                 except discord.Forbidden:
                     pass
         try:
