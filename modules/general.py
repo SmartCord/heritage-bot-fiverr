@@ -467,11 +467,43 @@ class General:
                 return await error(ctx, "Store Error", "The store is currently empty. This is a very unlikely error and it usually only happens when the database is cleared (Which normally we will not do). Please send this error to the owner.")
 
             embeds = []
+
+            common = []#x
+            uncommon = []#y
+            rare = []#z
+            epic = []#h
+            legendary = []#w
             for data in db.store.find({}):
                 e = discord.Embed(title=f"{data['act_name']}", description=f"<:gold:514791023671509003> Price : {data['card_price']} Golds\n<:db:514791975007027220> Stock : {data['card_amount']}\n<:diagay:515536803407593486> Rarity : {data['rarity']}", color=color())
                 e.set_image(url=data['card_image_url'])
                 footer(ctx, e)
-                embeds.append(e)
+                if similar('COMMON', data['rarity'].upper()) >= 0.9:
+                    common.append(e)
+                elif similar('UNCOMMON', data['rarity'].upper()) >= 0.9:
+                    uncommon.append(e)
+                elif similar('RARE', data['rarity'].upper()) >= 0.9:
+                    rare.append(e)
+                elif similar('EPIC', data['rarity'].upper()) >= 0.9:
+                    epic.append(e)
+                elif similar('LEGENDARY', data['rarity'].upper()) >= 0.9:
+                    legendary.append(e)
+                else:
+                    embeds.append(e)
+
+            for x in common:
+                embeds.append(x)
+
+            for x in uncommon:
+                embeds.append(x)
+
+            for x in rare:
+                embeds.append(x)
+
+            for x in epic:
+                embeds.append(x)
+
+            for x in legendary:
+                embeds.append(x)
 
             p = paginator.EmbedPages(ctx, embeds=embeds)
             await p.paginate()
