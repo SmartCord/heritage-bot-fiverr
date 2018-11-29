@@ -136,8 +136,11 @@ async def giveRankAuthor(bot, ctx, rank):
 
         if a['rank_role'] != "None":
             def get_shit():
+                roles = []
                 for server in bot.guilds:
-                    return server.roles
+                    for role in server.roles:
+                        roles.append(role)
+                return roles
 
             meme = discord.utils.get(get_shit(), id=a['rank_role'])
             noshit = discord.utils.get(bot.get_all_members(), id=ctx.author.id)
