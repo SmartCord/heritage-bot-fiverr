@@ -172,7 +172,7 @@ class General:
                                 user_data['gifted_on'] = "None"
                             usercard = m['act_name']
                             usercardname = msg.upper()
-                        useractname = [y['act_name'] for y in db.user_cards.find({"user_id":user.id})][0]
+                        useractname = [y['act_name'] for y in db.user_cards.find({"user_id":user.id, "card_name":usercardname})][0]
 
             await user.send("Successfully set your card to {} and {}'s card to {}.".format(useractname, ctx.author.name, actname))
             await user.send("Waiting for {} to agree. If he doesn't reply within 10 minutes the trade will be automatically canceled.".format(ctx.author))
