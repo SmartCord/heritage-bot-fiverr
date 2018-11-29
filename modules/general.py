@@ -139,7 +139,7 @@ class General:
                 return m.channel == user.dm_channel and m.author == user
 
             await ctx.send("Successfully asked {} what card he wants to trade to you. If he does not reply within 10 minutes the trade will be canceled. From now on I will private message you.".format(user))
-            e = discord.Embed(title=f"{ctx.author.name} Wants to trade with you", description="What card do you want to trade to him. His card offer is the card **{actname}** (Image Below).\nPlease enter the card you want to trade to him. If you want to cancel then type cancel. **You will automatically agree and we only have to wait for {ctx.author} to agree once you enter a card.**", color=color())
+            e = discord.Embed(title=f"{ctx.author.name} Wants to trade with you", description=f"What card do you want to trade to him. His card offer is the card **{actname}** (Image Below).\nPlease enter the card you want to trade to him. If you want to cancel then type cancel. **You will automatically agree and we only have to wait for {ctx.author} to agree once you enter a card.**", color=color())
             e.set_image(url=authorimagecard)
             footer(user, e)
             await user.send(embed=e)
@@ -187,8 +187,6 @@ class General:
             e.set_image(url=userimagecard)
             footer(ctx, e)
             await ctx.author.send(embed=e)
-
-            await ctx.author.send("Please type agree to continue the trade. If you do not reply within 10 minutes the trade will be canceled. If you want to cancel it now type cancel.")
             def check(m):
                 return m.channel == ctx.author.dm_channel and m.author == ctx.author
             x = False
