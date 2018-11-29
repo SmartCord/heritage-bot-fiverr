@@ -623,7 +623,7 @@ class General:
                         e.description += f"<:trade:516533473813594133> Traded With : {user}"
                 if db.store.count({"card_name":x['card_name']}):
                     priceon = [y['card_price'] for y in db.store.find({"card_name":x['card_name']})][0]
-                    e.description += "\n<:gold:514791023671509003> Price on store : {}".format(priceon)
+                    e.description += "\n<:gold:514791023671509003> Price on store : {} Golds".format(priceon)
 
                 if x['gifted_by'] != "None":
                     e.description += ":gift: Gifted by : {}".format(discord.utils.get(self.bot.get_all_members(), id=x['gifted_by']))
