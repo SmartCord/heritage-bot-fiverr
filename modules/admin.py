@@ -383,8 +383,11 @@ class Admin:
                 await ctx.send("Alright it's time to change the role of the rank.\nPlease enter the name of the new role (This will look for the role in the server)")
                 shit = [x['rank_role'] for x in db.ranks.find({"rank_id":id})][0]
                 def get_shit():
+                    roles = []
                     for server in self.bot.guilds:
-                        return server.roles
+                        for role in server.roles:
+                            roles.append(role)
+                    return roles
                 shit = discord.utils.get(get_shit(), id=shit)
                 if shit is None:
                     shit = "None"
@@ -497,8 +500,11 @@ class Admin:
                     rank_role = "None"
                 else:
                     def get_shit():
+                        roles = []
                         for server in self.bot.guilds:
-                            return server.roles 
+                            for role in server.roles:
+                                roles.append(role)
+                        return roles
                     rank_role = discord.utils.get(get_shit(), id=x['rank_role'])
                     if rank_role is None:
                         rank_role = "Cannot find role"
