@@ -494,7 +494,7 @@ class Admin:
                 if x['rank_image'] == "None":
                     rank_image = "None"
                 else:
-                    rank_image == "[Click Here!]({})".format(x['rank_image'])
+                    rank_image = "[Click Here!]({})".format(x['rank_image'])
 
                 if x['rank_role'] == "None":
                     rank_role = "None"
