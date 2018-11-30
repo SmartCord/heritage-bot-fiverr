@@ -613,21 +613,24 @@ class General:
 <:db:514791975007027220> Quantity : {x['amount']}
 """
 
+                memexd = []
                 if x['purchased_on'] != "None":
                     try:
-                        e.description += ":clock10: Purchased on (UTC) : {}".format(datetime.datetime.utcfromtimestamp(x['purchased_on']).strftime(utils.formatTime))
+                        memexd.append(":clock10: Purchased on (UTC) : {}".format(datetime.datetime.utcfromtimestamp(x['purchased_on']).strftime(utils.formatTime)))
                     except: # If it didn't work then it's probably traded lmao
                         user = discord.utils.get(self.bot.get_all_members(), id=x['purchased_on'])
                         if user is None:
                             user = "Unknown User"
-                        e.description += f"<:trade:516533473813594133> Traded With : {user}"
+                        memexd.append(f"<:trade:516533473813594133> Traded With : {user}")
                 if db.store.count({"card_name":x['card_name']}):
                     priceon = [y['card_price'] for y in db.store.find({"card_name":x['card_name']})][0]
-                    e.description += "\n<:gold:514791023671509003> Price on store : {} Golds".format(priceon)
+                    memexd.append("<:gold:514791023671509003> Price on store : {} Golds".format(priceon))
 
                 if x['gifted_by'] != "None":
-                    e.description += ":gift: Gifted by : {}".format(discord.utils.get(self.bot.get_all_members(), id=x['gifted_by']))
-                    e.description += "\n:clock130: Gifted on (UTC): {}".format(datetime.datetime.utcfromtimestamp(x['gifted_on']).strftime(utils.formatTime))
+                    memexd.append(":gift: Gifted by : {}".format(discord.utils.get(self.bot.get_all_members(), id=x['gifted_by'])))
+                    memexd.append(":clock130: Gifted on (UTC): {}".format(datetime.datetime.utcfromtimestamp(x['gifted_on']).strftime(utils.formatTime)))
+                lolering = "\n".join(memexd)
+                e.description += lolering
 
                 e.set_image(url=x['card_image'])
                 footer(ctx, e, extra=f"Total : {total_cards}")
