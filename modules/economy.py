@@ -6,7 +6,7 @@ class Economy:
         self.antispam = []
 
     async def checkAntiSpam(self, id):
-        await asyncio.sleep(180)
+        await asyncio.sleep(2)
         self.antispam.remove(id)
 
     async def on_message(self, message):

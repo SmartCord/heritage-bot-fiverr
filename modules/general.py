@@ -582,7 +582,7 @@ class General:
             }
             if db.user_cards.count({"user_id":ctx.author.id, "card_name":card}):
                 db.user_cards.update_one({"user_id":ctx.author.id}, {'$inc':{'amount':1}})
-                await ctx.send('updated database value ' + card + ' ' + ctx.author.id)
+                await ctx.send('updated database value ' + card + ' ' + str(ctx.author.id))
             else:
                 db.user_cards.insert_one(data)
 
