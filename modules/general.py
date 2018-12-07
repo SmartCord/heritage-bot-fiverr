@@ -278,8 +278,6 @@ class General:
     @commands.command() #checked
     async def my_achievements(self, ctx):
         try:
-            if await is_pm(ctx):
-                return
 
             if not db.users.count({"user_id":ctx.author.id}):
                 return await error(ctx, "No account found", "You don't have an account yet. You first have to read the rules channel and type agree on the rules channel.")
@@ -305,6 +303,7 @@ class General:
                 embeds.append(e)
 
             p = paginator.EmbedPages(ctx, author=ctx.author, embeds=embeds)
+            await ctx.send("I have sent you your achievements.")
             await p.paginate()
 
         except Exception as e:
@@ -444,8 +443,6 @@ class General:
     @commands.command() #checked
     async def stats(self, ctx):
         try:
-            if await is_pm(ctx):
-                return
             if not db.users.count({"user_id":ctx.author.id}):
                 return await error(ctx, "No account found", "You don't have an account yet. You first have to read the rules channel and type agree on the rules channel.")
 
@@ -479,7 +476,8 @@ class General:
                 e = discord.Embed(title="User Stats", description=description, color=color())
                 e.set_thumbnail(url=ctx.author.avatar_url)
                 footer(ctx, e)
-                await ctx.send(embed=e)
+                await ctx.author.send(embed=e)
+                await ctx.send("I have sent you your account status.")
 
         except Exception as e:
             await boterror(self.bot, ctx, e)
@@ -659,7 +657,7 @@ class General:
             for command in db.commands.find({}):
                 commandsx.append(f"{returnPrefix(ctx)}{command['name']} {command['arguments']}\n{command['description']}\n")
 
-            if is_admin(self.bot, ctx):
+            if is_admin(self.bot, ctx) and ctx.channel.id != 516254244022648837:
                 for command in db.commands_admin.find({}):
                     commandsx.append(f"{returnPrefix(ctx)}{command['name']} {command['arguments']}\n{command['description']}\n")
 
