@@ -11,6 +11,7 @@ def returnImage(binary):
 class General:
     def __init__(self, bot):
         self.bot = bot
+        bot.remove_command('help')
 
     async def on_message(self, message): #checked
         if message.author.bot:
